@@ -46,10 +46,10 @@ export class UsersService {
         createdAt: 'DESC',
         id: 'DESC',
       },
-      take: 2,
-      where: {
-        id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
-      },
+      // take: 2,
+      // where: {
+      //   id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
+      // },
     });
     return data;
   }

@@ -21,7 +21,9 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { classToPlain, plainToClass } from 'class-transformer';
+import { User } from './entities/user.entity';
 
 @ApiTags('users')
 @Controller('users')
@@ -38,7 +40,8 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto) {
+  @ApiResponse({ status: 201, description: 'The record has been successfully created.', type: User})
+  async create(@Body() createUserDto: CreateUserDto){
     return baseResponseCreate(await this.userService.create(createUserDto));
   }
 
