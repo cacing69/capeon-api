@@ -1,3 +1,4 @@
+import { PaginateDto } from './../utils/dto/paginate.dto';
 import {
   baseResponseCreate,
   baseResponseDelete,
@@ -5,7 +6,6 @@ import {
   baseResponseRead,
   baseResponseUpdate,
 } from './../utils/helpers';
-import { UuidPipe } from './../utils/pipes/uuid.pipe';
 import {
   Controller,
   Get,
@@ -17,6 +17,7 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -29,10 +30,11 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll(@Query() query) {
-    console.log(query);
-    const data = await this.userService.findAll();
-    const meta = { lastId: query?.lastId || null };
+  async findAll(@Query() paginateDto: PaginateDto) {
+    // console.log(query);
+    const meta = paginateDto;
+
+    const data = await this.userService.findAll(paginateDto);
     return baseResponseList(data, { meta });
   }
 
@@ -43,20 +45,20 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', UuidPipe) id: string) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return baseResponseRead(await this.userService.getById(id));
   }
 
   @Patch(':id')
   async update(
-    @Param('id', UuidPipe) id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return baseResponseUpdate(await this.userService.update(id, updateUserDto));
   }
 
   @Delete(':id')
-  async remove(@Param('id', UuidPipe) id: string) {
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
     return baseResponseDelete(await this.userService.remove(id));
   }
 }

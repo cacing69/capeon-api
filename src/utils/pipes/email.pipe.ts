@@ -8,24 +8,23 @@ import {
 } from '@nestjs/common';
 
 @Injectable()
-export class UuidPipe implements PipeTransform<number, number> {
+export class EmailPipe implements PipeTransform<number, number> {
   transform(value: number, metadata: ArgumentMetadata) {
-    if (this.checkIfValidUUID(value)) {
+    if (this.checkIfValidEmail(value)) {
       return value;
     }
 
     throw new HttpException(
       {
         statusCode: codeMapping.INVALID_UUID,
-        message: 'bad request, invalid uuid',
+        message: 'bad request, invalid email',
       },
       HttpStatus.BAD_REQUEST,
     );
   }
 
-  private checkIfValidUUID(str) {
-    const regexExp =
-      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+  private checkIfValidEmail(str) {
+    const regexExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     return regexExp.test(str);
   }

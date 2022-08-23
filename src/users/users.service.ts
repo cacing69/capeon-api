@@ -1,3 +1,5 @@
+import { PaginateDto } from './../utils/dto/paginate.dto';
+import { BadRequestException } from './../utils/exceptions/bad-request.exception';
 import { ERROR } from './../utils/error-code';
 import { AlreadyExistException } from '../utils/exceptions/already-exist.exception';
 import { InternalServerErrorException } from '../utils/exceptions/internal-server-error.exception';
@@ -22,6 +24,8 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    if (createUserDto.password != createUserDto.passwordConfirmation)
+      throw new BadRequestException('password confirmation do not match');
     try {
       const salt = await bcrypt.genSaltSync(10);
       const hash = await bcrypt.hashSync(createUserDto.password, salt);
@@ -40,15 +44,16 @@ export class UsersService {
     }
   }
 
-  async findAll() {
+  async findAll(paginateDto: PaginateDto) {
     const data = await this.userRepository.find({
       order: {
         createdAt: 'DESC',
         id: 'DESC',
       },
-      take: 2,
+      take: paginateDto.limit,
+      skip: (paginateDto.page - 1) * paginateDto.limit,
       where: {
-        id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
+        // id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
       },
     });
     return data;
