@@ -48,7 +48,6 @@ export class UsersService {
     const data = await this.userRepository.find({
       order: {
         createdAt: 'DESC',
-        id: 'DESC',
       },
       take: paginateDto.limit,
       skip: (paginateDto.page - 1) * paginateDto.limit,
