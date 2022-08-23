@@ -1,3 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+
 export type BaseResponseOption = {
   code: string;
   message: string;
@@ -7,15 +10,25 @@ export type BaseResponseOption = {
 
 // @UseInterceptors(ClassSerializerInterceptor)
 export class BaseResponse {
+  @ApiProperty()
+  @Expose()
   code: string;
 
+  @ApiProperty()
+  @Expose()
   message: string;
 
-  data;
+  @ApiProperty()
+  @Expose()
+  data: object | Array<object> = {};
 
-  meta;
+  @ApiProperty()
+  @Expose()
+  meta: object = {};
 
-  extra;
+  @ApiProperty()
+  @Expose()
+  extra: Array<string> = [];
 
   constructor(dataResponse?: any, options?: BaseResponseOption) {
     this.code = options?.code || '20001';
