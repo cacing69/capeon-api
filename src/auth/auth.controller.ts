@@ -44,12 +44,12 @@ export class AuthController {
 
     const cookie = `Authentication=${getToken}; HttpOnly; Path=/; Max-Age=${exp}`;
 
-    request.res.setHeader('Set-Cookie', cookie);
-
-    return baseResponse(
+    const response = baseResponse(
       { accessToken: getToken, refreshToken: null },
       { message },
     );
+
+    request.res.setHeader('Set-Cookie', cookie).send(response);
   }
 
   @Public()

@@ -18,7 +18,7 @@ import { join } from 'path';
         entities: [join(__dirname, '/../**/**.entity{.ts,.js}')],
         autoLoadEntities: true,
         synchronize: Boolean(
-          JSON.parse(configService.get('DATABASE_SYNCHRONIZE')),
+          JSON.parse(configService.get('DATABASE_SYNCHRONIZE')) || false,
         ),
         logging: true,
         ssl: Boolean(JSON.parse(configService.get('DATABASE_SSL'))),

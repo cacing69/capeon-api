@@ -1,3 +1,4 @@
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { PaginateDto } from './../utils/dto/paginate.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
 import { ERROR } from './../utils/error-code';
@@ -21,7 +22,9 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) {
+    // super(userRepository, { useSoftDelete: true });
+  }
 
   async create(createUserDto: CreateUserDto) {
     if (createUserDto.password != createUserDto.passwordConfirmation)
@@ -34,6 +37,7 @@ export class UsersService {
         ...createUserDto,
         password: hash,
       });
+
       await this.userRepository.save(data);
       return data;
     } catch (error: any) {
@@ -85,7 +89,9 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.userRepository.update(id, updateUserDto);
+    const { firstname, lastname, email } = updateUserDto;
+
+    await this.userRepository.update(id, { firstname, lastname, email });
     const updated = await this.userRepository.findOne({
       where: {
         id,
@@ -99,7 +105,7 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const deleted = await this.userRepository.delete(id);
+    const deleted = await this.userRepository.softDelete(id);
     if (!deleted.affected) {
       throw new RecordNotFoundToDeleteException();
     }

@@ -36,7 +36,15 @@ export class ErrorFilter extends BaseExceptionFilter {
       (error?.response?.message as string)?.toLowerCase() ||
       'something went wrong';
     const extra =
-      error?.response?.extra || [error.stack?.split('at')[0]?.trim()] || null;
+      error?.response?.extra || [
+        error.stack
+          ?.split('(/')[0]
+          ?.replace('"', '')
+          ?.replace(/\n/g, '')
+          ?.replace('    ', ' ')
+          ?.trim(),
+      ] ||
+      null;
     const meta = null;
     const data = null;
 
