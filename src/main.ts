@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe as ValidatePipe } from './utils/pipes/validation.pipe';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ErrorFilter } from './utils/filters/error.filter';
-import * as cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
