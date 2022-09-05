@@ -1,4 +1,5 @@
-import { Exclude, Expose } from 'class-transformer';
+import { encodeId } from './../../utils/helpers';
+import { Exclude, Expose, Transform } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -12,16 +13,15 @@ import {
 export class User {
   @Expose()
   @PrimaryGeneratedColumn()
+  @Transform(({ value, key, obj, type }) => {
+    return `${encodeId(value)}`;
+  })
   public id!: string;
 
   // @Expose()
   // public uuid!: string;
-
   @Expose()
   @Column()
-  // @Transform(({ value, key, obj, type }) => {
-  //   return toTitleCase(value);
-  // })
   public firstname!: string;
 
   @Expose()

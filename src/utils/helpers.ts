@@ -1,6 +1,8 @@
+import { NumberLike } from 'hashids/cjs/util';
 import { BaseResponse } from './base-response';
-
 import { codeMapping } from './code-mapping';
+import Hashids from 'hashids';
+
 export const baseResponse = (data: any, options?: any) => {
   return new BaseResponse(data, options);
 };
@@ -62,10 +64,17 @@ export const toTitleCase = (str) => {
   });
 };
 
-export const encodeId = (id: number): string => {
-  return `${id}`;
+const getHashIds = () => {
+  return new Hashids(
+    process.env.HASHIDS_SALT,
+    parseInt(process.env.HASHIDS_PADDING),
+  );
 };
 
-export const decodeId = (encodedId: string): number => {
-  return parseInt(encodedId);
+export const encodeId = (id: number): string => {
+  return getHashIds().encode(id);
+};
+
+export const decodeId = (encodedId: string): NumberLike => {
+  return getHashIds().decode(encodedId)[0];
 };
