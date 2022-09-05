@@ -11,8 +11,11 @@ import {
 @Entity('users', { schema: 'public' })
 export class User {
   @Expose()
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   public id!: string;
+
+  // @Expose()
+  // public uuid!: string;
 
   @Expose()
   @Column()

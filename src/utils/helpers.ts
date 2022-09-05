@@ -55,3 +55,17 @@ export const recursivelyStripNullValues = (value: unknown): unknown => {
     return value;
   }
 };
+
+export const toTitleCase = (str) => {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
+
+export const encodeId = (id: number): string => {
+  return `${id}`;
+};
+
+export const decodeId = (encodedId: string): number => {
+  return parseInt(encodedId);
+};

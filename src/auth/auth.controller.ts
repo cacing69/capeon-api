@@ -57,11 +57,9 @@ export class AuthController {
   async logout(@Req() request: Request) {
     const message = 'logout success';
 
-    request.res.setHeader(
-      'Set-Cookie',
-      `Authentication=; HttpOnly; Path=/; Max-Age=0`,
-    );
-    return baseResponse(null, { message });
+    request.res
+      .setHeader('Set-Cookie', `Authentication=; HttpOnly; Path=/; Max-Age=0`)
+      .send(baseResponse(null, { message }));
   }
 
   @Get('check')

@@ -24,8 +24,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { classToPlain, plainToClass } from 'class-transformer';
-import { User } from './entities/user.entity';
 
 @ApiTags('users')
 @Controller('users')
