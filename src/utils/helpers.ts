@@ -1,3 +1,5 @@
+import { LessThan } from 'typeorm';
+import { CursorDto } from './dto/cursor.dto';
 import { NumberLike } from 'hashids/cjs/util';
 import { BaseResponse } from './base-response';
 import { codeMapping } from './code-mapping';
@@ -17,8 +19,6 @@ export const baseResponseList = (data: any, options?: any) => {
   const message = options?.message || `list data`;
   const meta = options?.meta || null;
   const code = codeMapping.SUCCESS_LIST;
-
-  console.log(options);
 
   return baseResponse(data, { code, message, meta });
 };
@@ -75,6 +75,6 @@ export const encodeId = (id: number): string => {
   return getHashIds().encode(id);
 };
 
-export const decodeId = (encodedId: string): NumberLike => {
-  return getHashIds().decode(encodedId)[0];
+export const decodeId = (encodedId: string): number => {
+  return Number(getHashIds().decode(encodedId)[0]);
 };

@@ -1,3 +1,4 @@
+import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { BadRequestException } from '../utils/exceptions/bad-request.exception';
 import { RegisterAuthDto } from './dto/register-auth.dto';
@@ -5,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/users/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
@@ -60,5 +62,25 @@ export class AuthService {
     if (!isPasswordMatching) {
       throw new BadRequestException('wrong credential provided');
     }
+  }
+
+  public async changePassword(
+    user: User,
+    changePasswordAuthDto: ChangePasswordAuthDto,
+  ) {
+    if (
+      changePasswordAuthDto.password !=
+      changePasswordAuthDto.passwordConfirmation
+    )
+      throw new BadRequestException('password confirmation do not match');
+
+    const { password } = changePasswordAuthDto;
+
+    const updatePassword = await this.UsersService.updatePassword(
+      user.id,
+      password,
+    );
+
+    return updatePassword;
   }
 }

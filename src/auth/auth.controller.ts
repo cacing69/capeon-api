@@ -1,5 +1,10 @@
+import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
 import { Request } from 'express';
-import { baseResponse, baseResponseRead } from './../utils/helpers';
+import {
+  baseResponse,
+  baseResponseRead,
+  baseResponseUpdate,
+} from './../utils/helpers';
 import {
   Controller,
   Post,
@@ -62,8 +67,17 @@ export class AuthController {
       .send(baseResponse(null, { message }));
   }
 
-  @Get('check')
-  async check(@Req() request) {
+  @Get('profile')
+  async profile(@Req() request) {
     return baseResponseRead(request?.user);
+  }
+
+  @Post('change-password')
+  async changePassword(
+    @Req() request,
+    @Body() changePasswordAuthDto: ChangePasswordAuthDto,
+  ) {
+    await this.authService.changePassword(request?.user, changePasswordAuthDto);
+    return baseResponseUpdate(null);
   }
 }

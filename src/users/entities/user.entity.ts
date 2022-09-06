@@ -16,7 +16,7 @@ export class User {
   @Transform(({ value, key, obj, type }) => {
     return `${encodeId(value)}`;
   })
-  public id!: string;
+  public id!: number;
 
   // @Expose()
   // public uuid!: string;

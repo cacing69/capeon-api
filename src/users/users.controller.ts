@@ -1,12 +1,15 @@
+import { CursorDto } from './../utils/dto/cursor.dto';
 import { BaseResponse } from './../utils/base-response';
-import { PaginateDto } from './../utils/dto/paginate.dto';
+
 import {
   baseResponseCreate,
   baseResponseDelete,
   baseResponseList,
   baseResponseRead,
   baseResponseUpdate,
+  decodeId,
 } from './../utils/helpers';
+
 import {
   Controller,
   Get,
@@ -31,11 +34,10 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll(@Query() paginateDto: PaginateDto) {
-    // console.log(query);
-    const meta = paginateDto;
+  async findAll(@Query() cursorDto: CursorDto) {
+    const meta = cursorDto;
 
-    const data = await this.userService.findAll(paginateDto);
+    const data = await this.userService.cursor(cursorDto);
     return baseResponseList(data, { meta });
   }
 
@@ -52,19 +54,21 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return baseResponseRead(await this.userService.getById(id));
+    const decodedId = decodeId(id);
+    return baseResponseRead(await this.userService.getById(decodedId));
   }
 
   @Patch(':id')
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return baseResponseUpdate(await this.userService.update(id, updateUserDto));
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    const decodedId = decodeId(id);
+    await this.userService.update(decodedId, updateUserDto);
+    return baseResponseUpdate(null);
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    return baseResponseDelete(await this.userService.remove(id));
+  async remove(@Param('id') id: string) {
+    const decodedId = decodeId(id);
+    await this.userService.remove(decodedId);
+    return baseResponseDelete(null);
   }
 }

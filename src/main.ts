@@ -6,6 +6,7 @@ import { ValidationPipe as ValidatePipe } from './utils/pipes/validation.pipe';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ErrorFilter } from './utils/filters/error.filter';
 import cookieParser = require('cookie-parser');
+// import { TrimPipe } from './utils/pipes/trim.pipe';
 
 // const cookieParser = require('cookie-parser');
 

@@ -1,5 +1,5 @@
-import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { PaginateDto } from './../utils/dto/paginate.dto';
+import { decodeId, encodeId } from './../utils/helpers';
+import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
 import { ERROR } from './../utils/error-code';
 import { AlreadyExistException } from '../utils/exceptions/already-exist.exception';
@@ -11,20 +11,18 @@ import {
 } from '../utils/exceptions/not-found.exception';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, LessThan } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import * as bcrypt from 'bcrypt';
+import bcrypt = require('bcrypt');
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {
-    // super(userRepository, { useSoftDelete: true });
-  }
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     if (createUserDto.password != createUserDto.passwordConfirmation)
@@ -48,21 +46,41 @@ export class UsersService {
     }
   }
 
-  async findAll(paginateDto: PaginateDto) {
+  // async paginate(paginateDto: PaginateDto) {
+  //   const data = await this.userRepository.find({
+  //     order: {
+  //       createdAt: 'DESC',
+  //     },
+  //     take: paginateDto.limit,
+  //     skip: (paginateDto.page - 1) * paginateDto.limit,
+  //     where: {
+  //       // id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
+  //     },
+  //   });
+  //   return data;
+  // }
+
+  async cursor(cursorDto: CursorDto) {
+    let where = {};
+
+    if (cursorDto.lastId) {
+      where = {
+        id: LessThan(decodeId(cursorDto.lastId)),
+      };
+    }
+
     const data = await this.userRepository.find({
       order: {
-        createdAt: 'DESC',
+        id: 'DESC',
       },
-      take: paginateDto.limit,
-      skip: (paginateDto.page - 1) * paginateDto.limit,
-      where: {
-        // id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
-      },
+      take: cursorDto.length,
+      where,
     });
+
     return data;
   }
 
-  async getById(id: string) {
+  async getById(id: number) {
     const data = await this.userRepository.findOne({
       where: {
         id,
@@ -88,14 +106,14 @@ export class UsersService {
     throw new RecordNotFoundException();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     const { firstname, lastname, email } = updateUserDto;
 
-    await this.userRepository.update(id, { firstname, lastname, email });
-    const updated = await this.userRepository.findOne({
-      where: {
-        id,
-      },
+    console.log(updateUserDto);
+    const updated = await this.userRepository.update(id, {
+      firstname,
+      lastname,
+      email,
     });
 
     if (updated) {
@@ -104,10 +122,30 @@ export class UsersService {
     throw new RecordNotFoundToUpdateException();
   }
 
-  async remove(id: string) {
+  async updatePassword(id: number, password: string) {
+    const salt = await bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hashSync(password, salt);
+
+    const updated = await this.userRepository.update(id, { password: hash });
+    // const updated = await this.userRepository.findOne({
+    //   where: {
+    //     id,
+    //   },
+    // });
+
+    if (updated) {
+      return updated;
+    }
+
+    throw new RecordNotFoundToUpdateException();
+  }
+
+  async remove(id: number) {
     const deleted = await this.userRepository.softDelete(id);
     if (!deleted.affected) {
       throw new RecordNotFoundToDeleteException();
     }
+
+    return deleted;
   }
 }
