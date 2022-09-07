@@ -1,6 +1,5 @@
 export const codeMapping = {
   INTERNAL_SERVER_ERROR: '50001',
-  CREATED: '20101',
   ACCEPTED: '20201',
   NO_CONTENT: '20401',
   SUCCESS_LIST: '20001',

@@ -1,4 +1,4 @@
-import { decodeId } from './../helpers';
+import { decodeId } from '../helpers/helper';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 

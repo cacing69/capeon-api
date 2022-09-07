@@ -1,4 +1,4 @@
-import { decodeId, encodeId } from './../utils/helpers';
+import { decodeId, encodeId } from '../utils/helpers/helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
 import { ERROR } from './../utils/error-code';

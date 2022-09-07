@@ -1,10 +1,10 @@
+import {
+  setResponse,
+  ResponseType,
+  baseResponse,
+} from './../utils/helpers/response-helper';
 import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
 import { Request } from 'express';
-import {
-  baseResponse,
-  baseResponseRead,
-  baseResponseUpdate,
-} from './../utils/helpers';
 import {
   Controller,
   Post,
@@ -69,7 +69,7 @@ export class AuthController {
 
   @Get('profile')
   async profile(@Req() request) {
-    return baseResponseRead(request?.user);
+    return setResponse(ResponseType.Read, request?.user);
   }
 
   @Post('change-password')
@@ -78,6 +78,8 @@ export class AuthController {
     @Body() changePasswordAuthDto: ChangePasswordAuthDto,
   ) {
     await this.authService.changePassword(request?.user, changePasswordAuthDto);
-    return baseResponseUpdate(null);
+    return setResponse(ResponseType.Update, null, {
+      message: 'success update password',
+    });
   }
 }

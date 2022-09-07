@@ -1,14 +1,9 @@
+import { setResponse, ResponseType } from './../utils/helpers/response-helper';
+// eslint-disable-next-line prettier/prettier
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BaseResponse } from './../utils/base-response';
 
-import {
-  baseResponseCreate,
-  baseResponseDelete,
-  baseResponseList,
-  baseResponseRead,
-  baseResponseUpdate,
-  decodeId,
-} from './../utils/helpers';
+import { decodeId } from '../utils/helpers/helper';
 
 import {
   Controller,
@@ -38,7 +33,8 @@ export class UsersController {
     const meta = cursorDto;
 
     const data = await this.userService.cursor(cursorDto);
-    return baseResponseList(data, { meta });
+    // return baseResponseList(data, { meta });
+    return setResponse(ResponseType.List, data, { meta });
   }
 
   @Post()
@@ -49,26 +45,32 @@ export class UsersController {
     type: BaseResponse,
   })
   async create(@Body() createUserDto: CreateUserDto) {
-    return baseResponseCreate(await this.userService.create(createUserDto));
+    return setResponse(
+      ResponseType.Create,
+      await this.userService.create(createUserDto),
+    );
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const decodedId = decodeId(id);
-    return baseResponseRead(await this.userService.getById(decodedId));
+    return setResponse(
+      ResponseType.Read,
+      await this.userService.getById(decodedId),
+    );
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const decodedId = decodeId(id);
     await this.userService.update(decodedId, updateUserDto);
-    return baseResponseUpdate(null);
+    return setResponse(ResponseType.Update, null);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const decodedId = decodeId(id);
     await this.userService.remove(decodedId);
-    return baseResponseDelete(null);
+    return setResponse(ResponseType.Delete, null);
   }
 }

@@ -1,4 +1,4 @@
-import { encodeId } from './../../utils/helpers';
+import { encodeId } from '../../utils/helpers/helper';
 import { Exclude, Expose, Transform } from 'class-transformer';
 import {
   Column,
