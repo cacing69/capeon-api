@@ -109,14 +109,8 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    const { firstname, lastname, email } = updateUserDto;
-
     console.log(updateUserDto);
-    const updated = await this.userRepository.update(id, {
-      firstname,
-      lastname,
-      email,
-    });
+    const updated = await this.userRepository.update(id, updateUserDto);
 
     if (updated) {
       return updated;
