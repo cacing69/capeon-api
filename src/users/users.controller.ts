@@ -33,7 +33,7 @@ export class UsersController {
     const meta = cursorDto;
 
     const data = await this.userService.cursor(cursorDto);
-    // return baseResponseList(data, { meta });
+
     return setResponse(ResponseType.List, data, { meta });
   }
 

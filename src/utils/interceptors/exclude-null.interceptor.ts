@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { recursivelyStripNullValues } from '../helpers';
+import { recursivelyStripNullValues } from '../helpers/helper';
 
 @Injectable()
 export class ExcludeNullInterceptor implements NestInterceptor {

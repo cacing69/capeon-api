@@ -1,4 +1,3 @@
-import { decodeId } from '../helpers/helper';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
@@ -10,5 +9,5 @@ export class CursorDto {
   @Transform(({ value }) => parseInt(value))
   @IsNumber()
   @IsOptional()
-  length = 10;
+  limit = 10;
 }

@@ -1,10 +1,10 @@
-import { UnprocessableEntityException } from './../exceptions/unprocessable-entity.exception';
+import { UnprocessableEntityException } from '../exceptions/unprocessable-entity.exception';
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
-export class ValidationPipe implements PipeTransform<any> {
+export class CustomValidationPipe implements PipeTransform<any> {
   async transform(value: any, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;

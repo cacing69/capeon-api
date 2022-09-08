@@ -2,10 +2,10 @@ import { PostStatusInterceptor } from './utils/interceptors/post-status.intercep
 import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe as ValidatePipe } from './utils/pipes/validation.pipe';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ErrorFilter } from './utils/filters/error.filter';
 import cookieParser = require('cookie-parser');
+import { CustomValidationPipe } from './utils/pipes/custom-validation.pipe';
 // import { TrimPipe } from './utils/pipes/trim.pipe';
 
 // const cookieParser = require('cookie-parser');
@@ -22,9 +22,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-  app.useGlobalPipes(new ValidatePipe());
-  app.useGlobalPipes(new ValidationPipe({ skipMissingProperties: true }));
-  // app.useGlobalPipes(new TrimPipe());
+  app.useGlobalPipes(new CustomValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({ skipMissingProperties: true, whitelist: true }),
+  );
+
   app.useGlobalInterceptors(new PostStatusInterceptor());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.use(cookieParser());

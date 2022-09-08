@@ -1,3 +1,4 @@
+import { cursorBuilder } from './../utils/helpers/query-helper';
 import { decodeId, encodeId } from '../utils/helpers/helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
@@ -61,21 +62,22 @@ export class UsersService {
   // }
 
   async cursor(cursorDto: CursorDto) {
-    let where = {};
+    // let where = {};
 
-    if (cursorDto.lastId) {
-      where = {
-        id: LessThan(decodeId(cursorDto.lastId)),
-      };
-    }
+    // if (cursorDto.lastId) {
+    //   where = {
+    //     id: LessThan(decodeId(cursorDto.lastId)),
+    //   };
+    // }
 
-    const data = await this.userRepository.find({
-      order: {
-        id: 'DESC',
-      },
-      take: cursorDto.length,
-      where,
-    });
+    // const data = await this.userRepository.find({
+    //   order: {
+    //     id: 'DESC',
+    //   },
+    //   take: cursorDto.limit,
+    //   where,
+    // });
+    const data = await this.userRepository.find(cursorBuilder(cursorDto));
 
     return data;
   }
