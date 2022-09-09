@@ -1,5 +1,4 @@
 import { setResponse, ResponseType } from './../utils/helpers/response-helper';
-// eslint-disable-next-line prettier/prettier
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BaseResponse } from './../utils/base-response';
 
@@ -52,7 +51,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const decodedId = decodeId(id);
     return setResponse(
       ResponseType.Read,

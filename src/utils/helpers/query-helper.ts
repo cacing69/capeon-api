@@ -17,9 +17,11 @@ export const cursorBuilder = (
     };
   }
 
-  Object.entries(cursorDto?.filter)?.forEach(([key, value]) => {
-    where[key] = Like(`%${value}%`);
-  });
+  if (cursorDto?.filter) {
+    Object.entries(cursorDto?.filter)?.forEach(([key, value]) => {
+      where[key] = Like(`%${value}%`);
+    });
+  }
 
   const options: FindManyOptions = {
     take: cursorDto.limit,

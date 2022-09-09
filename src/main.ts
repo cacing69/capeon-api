@@ -39,7 +39,7 @@ async function bootstrap() {
   );
 
   app.useGlobalInterceptors(new PostStatusInterceptor());
-  app.useGlobalInterceptors(new ExcludeNullInterceptor());
+  // app.useGlobalInterceptors(new ExcludeNullInterceptor());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.use(cookieParser());
 
