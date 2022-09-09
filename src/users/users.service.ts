@@ -62,21 +62,6 @@ export class UsersService {
   // }
 
   async cursor(cursorDto: CursorDto) {
-    // let where = {};
-
-    // if (cursorDto.lastId) {
-    //   where = {
-    //     id: LessThan(decodeId(cursorDto.lastId)),
-    //   };
-    // }
-
-    // const data = await this.userRepository.find({
-    //   order: {
-    //     id: 'DESC',
-    //   },
-    //   take: cursorDto.limit,
-    //   where,
-    // });
     const params = cursorBuilder(cursorDto);
     const data = await this.userRepository.find(params);
 
