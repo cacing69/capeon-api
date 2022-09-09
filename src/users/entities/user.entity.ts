@@ -18,8 +18,6 @@ export class User {
   })
   public id!: number;
 
-  // @Expose()
-  // public uuid!: string;
   @Expose()
   @Column()
   public firstname!: string;
@@ -63,4 +61,16 @@ export class User {
   @Exclude()
   @DeleteDateColumn({ nullable: true })
   public deletedAt?: Date;
+
+  @Exclude()
+  @Column({ nullable: true })
+  public createdBy?: number;
+
+  @Exclude()
+  @Column({ nullable: true })
+  public updatedBy?: number;
+
+  @Exclude()
+  @Column({ nullable: true })
+  public deletedBy?: number;
 }

@@ -1,21 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsEmail, IsOptional, IsString } from 'class-validator';
+import { CreateUserDto } from './create-user.dto';
+import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
+import { AuditDto } from 'src/utils/dto/audit.dto';
+import { IsDefined, IsEmail, IsOptional } from 'class-validator';
 
-export class UpdateUserDto {
+export class UpdateUserDto extends PickType(CreateUserDto, [
+  'firstname',
+  'lastname',
+] as const) {
   @ApiProperty()
-  @IsString()
-  @IsDefined()
-  @IsOptional()
-  firstname: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsDefined()
-  @IsOptional()
-  lastname: string;
-
-  @ApiProperty()
-  @IsString()
   @IsDefined()
   @IsOptional()
   @IsEmail()

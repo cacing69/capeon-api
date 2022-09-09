@@ -79,6 +79,9 @@ export class AuthService {
     const updatePassword = await this.UsersService.updatePassword(
       user.id,
       password,
+      {
+        updatedBy: user?.id,
+      },
     );
 
     return updatePassword;

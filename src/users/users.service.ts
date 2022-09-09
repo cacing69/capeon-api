@@ -1,12 +1,8 @@
 import { cursorBuilder } from './../utils/helpers/query-helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
-import { ERROR } from './../utils/error-code';
-import { AlreadyExistException } from '../utils/exceptions/already-exist.exception';
-import { InternalServerErrorException } from '../utils/exceptions/internal-server-error.exception';
 import {
   RecordNotFoundException,
-  RecordNotFoundToDeleteException,
   RecordNotFoundToUpdateException,
 } from '../utils/exceptions/not-found.exception';
 import { Injectable } from '@nestjs/common';
@@ -24,25 +20,24 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create<T>(createUserDto: CreateUserDto, extraData?: T) {
     if (createUserDto.password != createUserDto.passwordConfirmation)
       throw new BadRequestException('password confirmation do not match');
+
     try {
       const salt = await bcrypt.genSaltSync(10);
       const hash = await bcrypt.hashSync(createUserDto.password, salt);
 
       const data = await this.userRepository.create({
         ...createUserDto,
+        ...extraData,
         password: hash,
       });
 
       await this.userRepository.save(data);
       return data;
     } catch (error: any) {
-      if (error?.code === ERROR.POSTGRES.UNIQUE_VALIDATION) {
-        throw new AlreadyExistException('email');
-      }
-      throw new InternalServerErrorException(error);
+      throw new BadRequestException(error);
     }
   }
 
@@ -93,34 +88,52 @@ export class UsersService {
     throw new RecordNotFoundException('user with this email does not exist');
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const updated = await this.userRepository.update(id, updateUserDto);
+  async update<T>(id: number, updateUserDto: UpdateUserDto, extraData?: T) {
+    try {
+      const updated = await this.userRepository.update(id, {
+        ...updateUserDto,
+        ...extraData,
+      });
 
-    if (updated) {
-      return updated;
+      if (updated.affected) {
+        return updated;
+      }
+    } catch (error: any) {
+      throw new BadRequestException(error);
     }
     throw new RecordNotFoundToUpdateException();
   }
 
-  async updatePassword(id: number, password: string) {
+  async updatePassword<T>(id: number, password: string, extra?: T) {
     const salt = await bcrypt.genSaltSync(10);
     const hash = await bcrypt.hashSync(password, salt);
 
-    const updated = await this.userRepository.update(id, { password: hash });
+    const updated = await this.userRepository.update(id, {
+      password: hash,
+      ...extra,
+    });
 
-    if (updated) {
+    if (updated.affected) {
       return updated;
     }
 
     throw new RecordNotFoundToUpdateException();
   }
 
-  async remove(id: number) {
-    const deleted = await this.userRepository.softDelete(id);
-    if (!deleted.affected) {
-      throw new RecordNotFoundToDeleteException();
+  async delete<T>(id: number, extraData?: T) {
+    try {
+      const deleted = await this.userRepository.update(id, {
+        deletedAt: new Date(),
+        ...extraData,
+      });
+
+      if (deleted.affected) {
+        return deleted;
+      }
+    } catch (error: any) {
+      throw new BadRequestException(error);
     }
 
-    return deleted;
+    throw new RecordNotFoundToUpdateException();
   }
 }

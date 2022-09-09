@@ -15,12 +15,13 @@ import {
   HttpCode,
   HttpStatus,
   Query,
-  ParseUUIDPipe,
+  Req,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UsersService } from './users.service';
+import { Authenticated } from 'src/utils/decorators/authenticated.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -28,7 +29,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll(@Query() cursorDto: CursorDto) {
+  async index(@Query() cursorDto: CursorDto) {
     const meta = cursorDto;
 
     const data = await this.userService.cursor(cursorDto);
@@ -43,15 +44,16 @@ export class UsersController {
     description: 'user has been successfully created.',
     type: BaseResponse,
   })
-  async create(@Body() createUserDto: CreateUserDto) {
-    return setResponse(
-      ResponseType.Create,
-      await this.userService.create(createUserDto),
-    );
+  async create(@Req() request, @Body() createUserDto: CreateUserDto) {
+    // await this.userService.setAuth(request);
+    await this.userService.create(createUserDto, {
+      createdBy: request?.user?.id,
+    });
+    return setResponse(ResponseType.Create, null);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async detail(@Param('id') id: string) {
     const decodedId = decodeId(id);
     return setResponse(
       ResponseType.Read,
@@ -60,16 +62,27 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(
+    @Req() request,
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     const decodedId = decodeId(id);
-    await this.userService.update(decodedId, updateUserDto);
+
+    // await this.userService.setAuth(request);
+    await this.userService.update(decodedId, updateUserDto, {
+      updatedBy: request?.user?.id,
+    });
     return setResponse(ResponseType.Update, null);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Authenticated
+  async delete(@Req() request, @Param('id') id: string) {
     const decodedId = decodeId(id);
-    await this.userService.remove(decodedId);
+
+    // await this.userService.setAuth(request);
+    await this.userService.delete(decodedId, { deletedBy: request?.user?.id });
     return setResponse(ResponseType.Delete, null);
   }
 }
