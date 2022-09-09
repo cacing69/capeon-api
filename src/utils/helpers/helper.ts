@@ -37,3 +37,7 @@ export const encodeId = (id: number): string => {
 export const decodeId = (encodedId: string): number => {
   return Number(getHashIds().decode(encodedId)[0]);
 };
+
+export function testGeneric<T>(el: T) {
+  return [el, el];
+}

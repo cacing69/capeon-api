@@ -1,5 +1,4 @@
 import { cursorBuilder } from './../utils/helpers/query-helper';
-import { decodeId, encodeId } from '../utils/helpers/helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
 import { ERROR } from './../utils/error-code';
@@ -12,7 +11,7 @@ import {
 } from '../utils/exceptions/not-found.exception';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, LessThan } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';

@@ -10,8 +10,6 @@ export const cursorBuilder = (
   cursorDto: CursorDto,
   cursorOtions?: CursorOption,
 ) => {
-  console.log(cursorDto.filter);
-
   let where = {};
   if (cursorDto.lastId) {
     where = {

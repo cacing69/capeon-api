@@ -3,5 +3,6 @@
         "harusnya",
         "nestjs",
         "typeorm"
-    ]
+    ],
+    "sqltools.connections": []
 }
