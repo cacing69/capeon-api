@@ -28,13 +28,23 @@ export class ErrorFilter extends BaseExceptionFilter {
         ? error.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    console.debug(error);
-
     const getCode = error?.response?.statusCode || error?.response?.code || 500;
     const code = changeCode(getCode);
-    const message =
-      (error?.response?.message as string)?.toLowerCase() ||
-      'something went wrong';
+
+    let message = null;
+
+    if (typeof error?.response?.message == 'object') {
+      if (error?.response?.message.length == 1) {
+        message = error?.response?.message[0];
+      } else {
+        console.log('need_format_error_here');
+      }
+    } else {
+      message =
+        (error?.response?.message as string)?.toLowerCase() ||
+        'something went wrong';
+    }
+
     const extra =
       error?.response?.extra || [
         error.stack
@@ -51,7 +61,5 @@ export class ErrorFilter extends BaseExceptionFilter {
     message;
 
     return response.status(status).send({ code, message, meta, data, extra });
-
-    // return super.catch(error, host);
   }
 }

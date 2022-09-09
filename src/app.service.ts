@@ -15,6 +15,9 @@ export class AppService {
         },
         dev: ['@cacing69'],
       },
+      extra: null,
+      code: '20000',
+      meta: null,
     };
   }
 }

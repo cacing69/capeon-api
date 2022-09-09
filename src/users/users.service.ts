@@ -77,7 +77,8 @@ export class UsersService {
     //   take: cursorDto.limit,
     //   where,
     // });
-    const data = await this.userRepository.find(cursorBuilder(cursorDto));
+    const params = cursorBuilder(cursorDto);
+    const data = await this.userRepository.find(params);
 
     return data;
   }
@@ -105,11 +106,10 @@ export class UsersService {
     if (data) {
       return data;
     }
-    throw new RecordNotFoundException();
+    throw new RecordNotFoundException('user with this email does not exist');
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    console.log(updateUserDto);
     const updated = await this.userRepository.update(id, updateUserDto);
 
     if (updated) {
@@ -123,11 +123,6 @@ export class UsersService {
     const hash = await bcrypt.hashSync(password, salt);
 
     const updated = await this.userRepository.update(id, { password: hash });
-    // const updated = await this.userRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
 
     if (updated) {
       return updated;
