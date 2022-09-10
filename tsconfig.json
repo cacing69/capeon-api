@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "target": "es2017",
+    "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    // "baseUrl": "./",
+    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -18,5 +20,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-  }
+    "typeRoots": ["node_modules/@types", "types"]
+  },
+  "exclude": ["node_modules", "dist"]
 }
