@@ -21,8 +21,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/utils/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
+import { Auth } from '@src/utils/decorators/auth.decorator';
 // import { Auth } from 'src/utils/decorators/auth.decorator';
-import { Auth } from '../../src/utils/decorators/auth.decorator';
+// import { Auth } from '../../src/utils/decorators/auth.decorator';
 // import * as authDecorator from './../../src/utils/decorators/auth.decorator';
 
 @ApiTags('auth')
