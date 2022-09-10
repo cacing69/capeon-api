@@ -1,9 +1,8 @@
-import { CreateUserDto } from './create-user.dto';
-import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
-import { AuditDto } from 'src/utils/dto/audit.dto';
+import { UserDto } from './user.dto';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsDefined, IsEmail, IsOptional } from 'class-validator';
 
-export class UpdateUserDto extends PickType(CreateUserDto, [
+export class UpdateUserDto extends PickType(UserDto, [
   'firstname',
   'lastname',
 ] as const) {
