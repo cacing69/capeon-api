@@ -17,10 +17,12 @@ import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from '../../src/utils/decorators/public.decorator';
+// import { Public } from '../../src/utils/decorators/public.decorator';
+import { Public } from 'src/utils/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { Auth } from '../../src/utils/decorators/auth.decorator';
+// import { Auth } from '../../src/utils/decorators/auth.decorator';
+import { Auth } from 'src/utils/decorators/auth.decorator';
 
 @ApiTags('auth')
 @Controller('auth')

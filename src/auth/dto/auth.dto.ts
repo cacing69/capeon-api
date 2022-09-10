@@ -6,7 +6,8 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
+// import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
+import { IsSame } from 'src/utils/decorators/is-same.decorator';
 
 export class AuthDto {
   @IsString()
