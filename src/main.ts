@@ -8,6 +8,7 @@ import { ErrorFilter } from './utils/filters/error.filter';
 import { CustomValidationPipe } from './utils/pipes/custom-validation.pipe';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
+import 'module-alias/register';
 // export let app: INestApplication;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
