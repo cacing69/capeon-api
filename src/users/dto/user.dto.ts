@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsSame } from '@src/utils/decorators/is-same.decorator';
 import { Trim } from 'class-sanitizer';
 import {
   IsDefined,
@@ -9,7 +10,7 @@ import {
   MinLength,
 } from 'class-validator';
 // import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
-import { IsSame } from 'src/utils/decorators/is-same.decorator';
+// import { IsSame } from 'src/utils/decorators/is-same.decorator';
 
 export class UserDto {
   @ApiProperty()
