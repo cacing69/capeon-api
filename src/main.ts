@@ -1,4 +1,3 @@
-import { ExcludeNullInterceptor } from './utils/interceptors/exclude-null.interceptor';
 import { PostStatusInterceptor } from './utils/interceptors/post-status.interceptor';
 import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -8,8 +7,7 @@ import { ErrorFilter } from './utils/filters/error.filter';
 import { CustomValidationPipe } from './utils/pipes/custom-validation.pipe';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
-import 'module-alias/register';
-// export let app: INestApplication;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
