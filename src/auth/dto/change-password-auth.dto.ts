@@ -1,13 +1,7 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { PickType } from '@nestjs/swagger';
+import { AuthDto } from './auth.dto';
 
-export class ChangePasswordAuthDto {
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(6)
-  password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(6)
-  passwordConfirmation: string;
-}
+export class ChangePasswordAuthDto extends PickType(AuthDto, [
+  'password',
+  'passwordConfirmation',
+] as const) {}

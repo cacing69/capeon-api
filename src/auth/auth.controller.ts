@@ -4,7 +4,6 @@ import {
   baseResponse,
 } from './../utils/helpers/response-helper';
 import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
-import { Request } from 'express';
 import {
   Controller,
   Post,
@@ -20,6 +19,8 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/utils/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
+import { Auth } from '@/utils/decorators/auth.decorator';
+import { Request } from 'express';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -57,6 +58,25 @@ export class AuthController {
     request.res.setHeader('Set-Cookie', cookie).send(response);
   }
 
+  @Post('refresh')
+  async refresh(@Req() request: Request) {
+    const message = 'refresh success';
+
+    const refreshToken = await this.authService.refreshToken(
+      (request as any)?.user,
+    );
+    const exp = await this.configService.get('JWT_EXPIRATION_TIME');
+
+    const cookie = `Authentication=${refreshToken}; HttpOnly; Path=/; Max-Age=${exp}`;
+
+    const response = baseResponse(
+      { accessToken: refreshToken, refreshToken: null },
+      { message },
+    );
+
+    request.res.setHeader('Set-Cookie', cookie).send(response);
+  }
+
   @Public()
   @Post('logout')
   async logout(@Req() request: Request) {
@@ -68,16 +88,16 @@ export class AuthController {
   }
 
   @Get('profile')
-  async profile(@Req() request) {
-    return setResponse(ResponseType.Read, request?.user);
+  async profile(@Auth() auth) {
+    return setResponse(ResponseType.Read, auth);
   }
 
   @Post('change-password')
   async changePassword(
-    @Req() request,
+    @Auth() user,
     @Body() changePasswordAuthDto: ChangePasswordAuthDto,
   ) {
-    await this.authService.changePassword(request?.user, changePasswordAuthDto);
+    await this.authService.changePassword(user, changePasswordAuthDto);
     return setResponse(ResponseType.Update, null, {
       message: 'success update password',
     });

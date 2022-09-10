@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { IsSame } from '@/utils/decorators/is-same.decorator';
 import { Trim } from 'class-sanitizer';
 import {
-  IsDefined,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -9,38 +8,31 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto {
-  @ApiProperty()
+export class AuthDto {
   @IsString()
-  @IsDefined()
   @IsNotEmpty()
   @Trim()
   firstname: string;
 
-  @ApiProperty()
   @IsString()
-  @IsDefined()
   @IsOptional()
   @Trim()
-  lastname: string;
+  lastname?: string;
 
-  @ApiProperty()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @IsDefined()
+  @IsEmail()
+  @Trim()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
   @MinLength(6)
   password: string;
 
-  @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @IsDefined()
   @MinLength(6)
+  @IsSame('password')
   passwordConfirmation: string;
 }

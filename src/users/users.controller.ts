@@ -15,13 +15,12 @@ import {
   HttpCode,
   HttpStatus,
   Query,
-  Req,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { Authenticated } from 'src/utils/decorators/authenticated.decorator';
+import { Auth } from '@/utils/decorators/auth.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -31,7 +30,6 @@ export class UsersController {
   @Get()
   async index(@Query() cursorDto: CursorDto) {
     const meta = cursorDto;
-
     const data = await this.userService.cursor(cursorDto);
 
     return setResponse(ResponseType.List, data, { meta });
@@ -44,11 +42,8 @@ export class UsersController {
     description: 'user has been successfully created.',
     type: BaseResponse,
   })
-  async create(@Req() request, @Body() createUserDto: CreateUserDto) {
-    // await this.userService.setAuth(request);
-    await this.userService.create(createUserDto, {
-      createdBy: request?.user?.id,
-    });
+  async create(@Auth() user, @Body() createUserDto: CreateUserDto) {
+    await this.userService.create(createUserDto, user);
     return setResponse(ResponseType.Create, null);
   }
 
@@ -63,26 +58,20 @@ export class UsersController {
 
   @Patch(':id')
   async update(
-    @Req() request,
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
+    @Auth() user,
   ) {
     const decodedId = decodeId(id);
 
-    // await this.userService.setAuth(request);
-    await this.userService.update(decodedId, updateUserDto, {
-      updatedBy: request?.user?.id,
-    });
+    await this.userService.update(decodedId, updateUserDto, user);
     return setResponse(ResponseType.Update, null);
   }
 
   @Delete(':id')
-  @Authenticated
-  async delete(@Req() request, @Param('id') id: string) {
+  async delete(@Auth() user, @Param('id') id: string) {
     const decodedId = decodeId(id);
-
-    // await this.userService.setAuth(request);
-    await this.userService.delete(decodedId, { deletedBy: request?.user?.id });
+    await this.userService.delete(decodedId, user);
     return setResponse(ResponseType.Delete, null);
   }
 }

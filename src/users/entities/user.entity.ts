@@ -64,6 +64,10 @@ export class User {
 
   @Exclude()
   @Column({ nullable: true })
+  public lastLoginAt?: Date;
+
+  @Exclude()
+  @Column({ nullable: true })
   public createdBy?: number;
 
   @Exclude()

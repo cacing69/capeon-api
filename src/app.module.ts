@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import Joi = require('@hapi/joi');
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ExamplesModule } from './examples/examples.module';
 import JwtAuthenticationGuard from './utils/guards/jwt-authentication.guard';
 
@@ -42,6 +42,11 @@ import JwtAuthenticationGuard from './utils/guards/jwt-authentication.guard';
       provide: APP_GUARD,
       useClass: JwtAuthenticationGuard,
     },
+    // AppService,
+    // {
+    // provide: APP_INTERCEPTOR,
+    // useClass: JwtAuthenticationGuard,
+    // },
     IsExistConstraint,
     IsUniqueConstraint,
   ],

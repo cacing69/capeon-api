@@ -1,3 +1,4 @@
+import { User } from 'src/users/entities/user.entity';
 import { cursorBuilder } from './../utils/helpers/query-helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
@@ -10,7 +11,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import bcrypt = require('bcrypt');
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create<T>(createUserDto: CreateUserDto, extraData?: T) {
+  async create(createUserDto: CreateUserDto, actor?: User) {
     if (createUserDto.password != createUserDto.passwordConfirmation)
       throw new BadRequestException('password confirmation do not match');
 
@@ -30,7 +30,9 @@ export class UsersService {
 
       const data = await this.userRepository.create({
         ...createUserDto,
-        ...extraData,
+        ...{
+          createdBy: actor?.id,
+        },
         password: hash,
       });
 
@@ -88,11 +90,13 @@ export class UsersService {
     throw new RecordNotFoundException('user with this email does not exist');
   }
 
-  async update<T>(id: number, updateUserDto: UpdateUserDto, extraData?: T) {
+  async update(id: number, updateUserDto: UpdateUserDto, actor?: User) {
     try {
       const updated = await this.userRepository.update(id, {
         ...updateUserDto,
-        ...extraData,
+        ...{
+          updatedBy: actor.id,
+        },
       });
 
       if (updated.affected) {
@@ -104,13 +108,15 @@ export class UsersService {
     throw new RecordNotFoundToUpdateException();
   }
 
-  async updatePassword<T>(id: number, password: string, extra?: T) {
+  async updatePassword(id: number, password: string, actor?: User) {
     const salt = await bcrypt.genSaltSync(10);
     const hash = await bcrypt.hashSync(password, salt);
 
     const updated = await this.userRepository.update(id, {
       password: hash,
-      ...extra,
+      ...{
+        updatedBy: actor?.id,
+      },
     });
 
     if (updated.affected) {
@@ -120,11 +126,28 @@ export class UsersService {
     throw new RecordNotFoundToUpdateException();
   }
 
-  async delete<T>(id: number, extraData?: T) {
+  async updateLastLoginAt(user, actor?: User) {
+    const updated = await this.userRepository.update(user.id, {
+      ...{
+        updatedBy: actor?.id,
+        lastLoginAt: new Date(),
+      },
+    });
+
+    if (updated.affected) {
+      return updated;
+    }
+
+    throw new RecordNotFoundToUpdateException();
+  }
+
+  async delete(id: number, actor?: User) {
     try {
       const deleted = await this.userRepository.update(id, {
         deletedAt: new Date(),
-        ...extraData,
+        ...{
+          deletedBy: actor.id,
+        },
       });
 
       if (deleted.affected) {

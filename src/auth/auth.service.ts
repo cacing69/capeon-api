@@ -10,14 +10,14 @@ import { User } from 'src/users/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly UsersService: UsersService,
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
   async register(registerAuthDto: RegisterAuthDto) {
     if (registerAuthDto.password != registerAuthDto.passwordConfirmation)
       throw new BadRequestException('password confirmation do not match');
 
-    const user = await this.UsersService.create(registerAuthDto as any);
+    const user = await this.usersService.create(registerAuthDto as any);
 
     return user;
   }
@@ -33,6 +33,19 @@ export class AuthService {
     };
 
     const token = this.jwtService.sign(payload);
+    await this.usersService.updateLastLoginAt(user, user);
+    return token;
+  }
+
+  async refreshToken(user: User) {
+    const id = (user as any).id;
+    const payload = {
+      sub: id,
+    };
+
+    const token = this.jwtService.sign(payload);
+
+    await this.usersService.updateLastLoginAt(user, user);
     return token;
   }
 
@@ -43,7 +56,7 @@ export class AuthService {
 
   public async getAuthenticated(email: string, plainTextPassword: string) {
     try {
-      const user = await this.UsersService.getByEmail(email);
+      const user = await this.usersService.getByEmail(email);
       await this.verifyPassword(plainTextPassword, user.password);
       return user;
     } catch (error) {
@@ -76,12 +89,10 @@ export class AuthService {
 
     const { password } = changePasswordAuthDto;
 
-    const updatePassword = await this.UsersService.updatePassword(
+    const updatePassword = await this.usersService.updatePassword(
       user.id,
       password,
-      {
-        updatedBy: user?.id,
-      },
+      user,
     );
 
     return updatePassword;
