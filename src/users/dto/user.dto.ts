@@ -8,6 +8,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
+import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
 
 export class UserDto {
   @ApiProperty()
@@ -43,5 +44,6 @@ export class UserDto {
   @IsNotEmpty()
   @IsDefined()
   @MinLength(6)
+  @IsSame('password')
   passwordConfirmation: string;
 }
