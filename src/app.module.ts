@@ -10,7 +10,6 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ExamplesModule } from './examples/examples.module';
 import JwtAuthenticationGuard from './utils/guards/jwt-authentication.guard';
-import { IsSameConstraint } from './utils/decorators/is-same.decorator';
 import Joi = require('@hapi/joi');
 
 @Module({
@@ -47,7 +46,6 @@ import Joi = require('@hapi/joi');
     // provide: APP_INTERCEPTOR,
     // useClass: JwtAuthenticationGuard,
     // },
-    IsSameConstraint,
     IsExistConstraint,
     IsUniqueConstraint,
   ],
