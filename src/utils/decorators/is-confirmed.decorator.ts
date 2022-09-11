@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 
 // is-same decorator
-export function IsSame(
+export function IsConfirmed(
   property: string,
   validationOptions?: ValidationOptions,
 ) {
@@ -17,13 +17,13 @@ export function IsSame(
       propertyName,
       options: validationOptions,
       constraints: [property],
-      validator: IsSameConstraint,
+      validator: IsConfirmedConstraint,
     });
   };
 }
 
 @ValidatorConstraint({ name: 'IsSame' })
-export class IsSameConstraint implements ValidatorConstraintInterface {
+export class IsConfirmedConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
     const [relatedPropertyName] = args.constraints;
     const relatedValue = (args.object as any)[relatedPropertyName];

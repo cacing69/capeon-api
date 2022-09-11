@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsConfirmed } from '@src/utils/decorators/is-confirmed.decorator';
 import {
   IsDefined,
   IsEmail,
@@ -8,7 +9,6 @@ import {
 } from 'class-validator';
 import { User } from 'src/users/entities/user.entity';
 import { IsExist } from 'src/utils/decorators/is-exist.decorator';
-import { IsSame } from 'src/utils/decorators/is-same.decorator';
 import { IsUnique } from 'src/utils/decorators/is-unique.decorator';
 
 export class TestIsExistDto {
@@ -28,7 +28,7 @@ export class TestIsExistDto {
   @IsString()
   @IsNotEmpty()
   @IsDefined()
-  @IsSame('firstname')
+  @IsConfirmed('firstname')
   firstnameConfirm: string;
 
   @ApiProperty()

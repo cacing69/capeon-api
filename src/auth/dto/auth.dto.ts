@@ -1,3 +1,4 @@
+import { IsConfirmed } from '@src/utils/decorators/is-confirmed.decorator';
 import { Trim } from 'class-sanitizer';
 import {
   IsEmail,
@@ -7,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 // import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
-import { IsSame } from '@src/utils/decorators/is-same.decorator';
+// import { IsSame } from '@src/utils/decorators/is-confirmed.decorator';
 
 export class AuthDto {
   @IsString()
@@ -34,6 +35,6 @@ export class AuthDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
-  @IsSame('password')
+  @IsConfirmed('password')
   passwordConfirmation: string;
 }

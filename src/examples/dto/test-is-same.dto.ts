@@ -8,7 +8,8 @@ import {
 } from 'class-validator';
 import { User } from '@src/users/entities/user.entity';
 import { IsUnique } from '@src/utils/decorators/is-unique.decorator';
-import { IsSame } from '@src/utils/decorators/is-same.decorator';
+import { IsConfirmed } from '@src/utils/decorators/is-confirmed.decorator';
+// import { IsSame } from '@src/utils/decorators/is-confirmed.decorator';
 
 export class TestIsSameDto {
   @ApiProperty()
@@ -30,6 +31,6 @@ export class TestIsSameDto {
   @IsNotEmpty()
   @IsDefined()
   @MinLength(6)
-  @IsSame('password')
+  @IsConfirmed('password')
   passwordConfirmation: string;
 }
