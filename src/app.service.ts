@@ -14,7 +14,7 @@ export class AppService {
         env: {
           node_env: this.configService.get('NODE_ENV') || 'empty',
         },
-        dev: ['@cacing69'],
+        contributors: ['@cacing69', 'alphard29'],
       },
       extra: null,
       code: '20000',
