@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "github": {
-    "silent": true
-  },
   "buildCommand": "yarn build",
   "cleanUrls": true,
   "devCommand": "yarn dev",
   "framework" : "Other",
   "installCommand": "yarn install",
   "outputDirectory": "dist",
-  "public": true,
   "trailingSlash": false,
   "name": "capeon-api-dev",
   "builds": [
