@@ -12,13 +12,14 @@
     "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "rootDir": ".",
     "strict": true,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
-    // "paths": {
-    //   "@src/*": ["src/*"],
-    // },
+    "paths": {
+      "@/*": ["src/*"],
+    },
     // "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
