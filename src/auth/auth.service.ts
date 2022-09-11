@@ -3,10 +3,10 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { BadRequestException } from '../utils/exceptions/bad-request.exception';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/entities/user.entity';
+import { UsersService } from '../../src/users/users.service';
 @Injectable()
 export class AuthService {
   constructor(
