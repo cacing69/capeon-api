@@ -12,7 +12,7 @@
     "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "strict": true,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
