@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class AppService {
@@ -17,7 +18,9 @@ export class AppService {
       },
       extra: null,
       code: '20000',
-      meta: null,
+      meta: {
+        requestId: nanoid(),
+      },
     };
   }
 }

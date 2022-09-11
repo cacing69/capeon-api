@@ -1,22 +1,24 @@
-import { encodeId } from '../../utils/helpers/helper';
 import { Exclude, Expose, Transform } from 'class-transformer';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { nanoid } from 'nanoid';
 
 @Entity('users', { schema: 'public' })
 export class User {
   @Expose()
-  @PrimaryGeneratedColumn()
-  @Transform(({ value, key, obj, type }) => {
-    return `${encodeId(value)}`;
-  })
-  public id!: number;
+  @PrimaryColumn()
+  // @Transform(({ value, key, obj, type }) => {
+  //   return `${encodeId(value)}`;
+  // })
+  public id!: string;
 
   @Expose()
   @Column()
@@ -68,13 +70,18 @@ export class User {
 
   @Exclude()
   @Column({ nullable: true })
-  public createdBy?: number;
+  public createdBy?: string;
 
   @Exclude()
   @Column({ nullable: true })
-  public updatedBy?: number;
+  public updatedBy?: string;
 
   @Exclude()
   @Column({ nullable: true })
-  public deletedBy?: number;
+  public deletedBy?: string;
+
+  @BeforeInsert()
+  fillId() {
+    this.id = nanoid();
+  }
 }

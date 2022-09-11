@@ -2,8 +2,6 @@ import { setResponse, ResponseType } from './../utils/helpers/response-helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BaseResponse } from './../utils/base-response';
 
-import { decodeId } from '../utils/helpers/helper';
-
 import {
   Controller,
   Get,
@@ -20,8 +18,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { Auth } from './../../src/utils/decorators/auth.decorator';
-// import { Auth } from '@src/utils/decorators/auth.decorator';
+import { Auth } from '@src/utils/decorators/auth.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -50,11 +47,7 @@ export class UsersController {
 
   @Get(':id')
   async detail(@Param('id') id: string) {
-    const decodedId = decodeId(id);
-    return setResponse(
-      ResponseType.Read,
-      await this.userService.getById(decodedId),
-    );
+    return setResponse(ResponseType.Read, await this.userService.getById(id));
   }
 
   @Patch(':id')
@@ -63,16 +56,13 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Auth() user,
   ) {
-    const decodedId = decodeId(id);
-
-    await this.userService.update(decodedId, updateUserDto, user);
+    await this.userService.update(id, updateUserDto, user);
     return setResponse(ResponseType.Update, null);
   }
 
   @Delete(':id')
   async delete(@Auth() user, @Param('id') id: string) {
-    const decodedId = decodeId(id);
-    await this.userService.delete(decodedId, user);
+    await this.userService.delete(id, user);
     return setResponse(ResponseType.Delete, null);
   }
 }

@@ -1,4 +1,3 @@
-import { User } from '../../users/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDefined,
@@ -7,8 +6,9 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { IsUnique } from 'src/utils/decorators/is-unique.decorator';
-import { IsSame } from 'src/utils/decorators/is-same.decorator';
+import { User } from '@src/users/entities/user.entity';
+import { IsUnique } from '@src/utils/decorators/is-unique.decorator';
+import { IsSame } from '@src/utils/decorators/is-same.decorator';
 
 export class TestIsSameDto {
   @ApiProperty()

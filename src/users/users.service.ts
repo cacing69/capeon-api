@@ -1,4 +1,4 @@
-import { User } from 'src/users/entities/user.entity';
+// import { User } from './../../src/users/entities/user.entity';
 import { cursorBuilder } from './../utils/helpers/query-helper';
 import { CursorDto } from './../utils/dto/cursor.dto';
 import { BadRequestException } from './../utils/exceptions/bad-request.exception';
@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import bcrypt = require('bcrypt');
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -64,7 +65,7 @@ export class UsersService {
     return data;
   }
 
-  async getById(id: number) {
+  async getById(id: string) {
     const data = await this.userRepository.findOne({
       where: {
         id,
@@ -90,7 +91,7 @@ export class UsersService {
     throw new RecordNotFoundException('user with this email does not exist');
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto, actor?: User) {
+  async update(id: string, updateUserDto: UpdateUserDto, actor?: User) {
     try {
       const updated = await this.userRepository.update(id, {
         ...updateUserDto,
@@ -108,7 +109,7 @@ export class UsersService {
     throw new RecordNotFoundToUpdateException();
   }
 
-  async updatePassword(id: number, password: string, actor?: User) {
+  async updatePassword(id: string, password: string, actor?: User) {
     const salt = await bcrypt.genSaltSync(10);
     const hash = await bcrypt.hashSync(password, salt);
 
@@ -141,7 +142,7 @@ export class UsersService {
     throw new RecordNotFoundToUpdateException();
   }
 
-  async delete(id: number, actor?: User) {
+  async delete(id: string, actor?: User) {
     try {
       const deleted = await this.userRepository.update(id, {
         deletedAt: new Date(),
