@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import {
   registerDecorator,
   ValidationArguments,
@@ -6,7 +7,6 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-// is-same decorator
 export function IsIdentical(
   property: string,
   validationOptions?: ValidationOptions,
@@ -22,7 +22,8 @@ export function IsIdentical(
   };
 }
 
-@ValidatorConstraint({ name: 'IsIdentical' })
+@ValidatorConstraint({ name: 'IsIdentical', async: true })
+@Injectable()
 export class IsIdenticalConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
     const [relatedPropertyName] = args.constraints;

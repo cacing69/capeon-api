@@ -49,7 +49,7 @@ import Joi = require('@hapi/joi');
     // },
     IsExistConstraint,
     IsUniqueConstraint,
-    IsIdenticalConstraint
+    IsIdenticalConstraint,
   ],
 })
 export class AppModule {}
