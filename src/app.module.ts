@@ -1,3 +1,4 @@
+import { IsIdenticalConstraint } from './utils/decorators/is-identical.decorator';
 import { IsUniqueConstraint } from './utils/decorators/is-unique.decorator';
 import { IsExistConstraint } from './utils/decorators/is-exist.decorator';
 import { DatabaseModule } from './database/database.module';
@@ -48,6 +49,7 @@ import Joi = require('@hapi/joi');
     // },
     IsExistConstraint,
     IsUniqueConstraint,
+    IsIdenticalConstraint
   ],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsConfirmed } from '@src/utils/decorators/is-confirmed.decorator';
+import { IsIdentical } from '@src/utils/decorators/is-identical.decorator';
+// import { IsConfirmed } from '@src/utils/decorators/is-identical.decorator';
 import { Trim } from 'class-sanitizer';
 import {
   IsDefined,
@@ -46,6 +47,6 @@ export class UserDto {
   @IsNotEmpty()
   @IsDefined()
   @MinLength(6)
-  @IsConfirmed('password')
+  @IsIdentical('password')
   passwordConfirmation: string;
 }

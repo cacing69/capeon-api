@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { User } from '@src/users/entities/user.entity';
 import { IsUnique } from '@src/utils/decorators/is-unique.decorator';
-import { IsConfirmed } from '@src/utils/decorators/is-confirmed.decorator';
+import { IsIdentical } from '@src/utils/decorators/is-identical.decorator';
 // import { IsSame } from '@src/utils/decorators/is-confirmed.decorator';
 
 export class TestIsSameDto {
@@ -31,6 +31,6 @@ export class TestIsSameDto {
   @IsNotEmpty()
   @IsDefined()
   @MinLength(6)
-  @IsConfirmed('password')
+  @IsIdentical('password')
   passwordConfirmation: string;
 }
