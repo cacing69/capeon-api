@@ -3,7 +3,6 @@
   "buildCommand": "yarn build",
   "cleanUrls": true,
   "devCommand": "yarn dev",
-  "framework" : "Other",
   "installCommand": "yarn install",
   "outputDirectory": "dist",
   "trailingSlash": false,
