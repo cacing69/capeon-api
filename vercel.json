@@ -1,7 +1,6 @@
 {
   "version": 2,
   "buildCommand": "yarn build",
-  "cleanUrls": true,
   "devCommand": "yarn dev",
   "installCommand": "yarn install",
   "outputDirectory": "dist",
