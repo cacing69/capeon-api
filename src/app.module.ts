@@ -1,6 +1,5 @@
-import { IsIdenticalConstraint } from './utils/decorators/is-identical.decorator';
-import { IsUniqueConstraint } from './utils/decorators/is-unique.decorator';
-import { IsExistConstraint } from './utils/decorators/is-exist.decorator';
+import { IsUniqueConstraint } from './core/decorator/is-unique.decorator';
+import { IsExistConstraint } from './core/decorator/is-exist.decorator';
 import { DatabaseModule } from './core/database.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -51,7 +50,6 @@ import Joi = require('@hapi/joi');
     // },
     IsExistConstraint,
     IsUniqueConstraint,
-    IsIdenticalConstraint,
   ],
 })
 export class AppModule {}

@@ -19,8 +19,7 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { Public } from '@src/utils/decorators/public.decorator';
-// import { Auth } from '@src/utils/decorators/auth.decorator';
+import { Public } from '../../src/core/decorator/public.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
