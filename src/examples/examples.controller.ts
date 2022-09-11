@@ -4,7 +4,7 @@ import { ExamplesService } from './examples.service';
 import { TestIsSameDto } from './dto/test-is-same.dto';
 import { TestIsExistDto } from './dto/test-is-exist.dto';
 import { TestPickTypeDto } from './dto/test-pick-type.dto';
-import { testGeneric } from 'src/utils/helpers/helper';
+// import { testGeneric } from 'src/utils/helpers/helper';
 @Controller('examples')
 export class ExamplesController {
   constructor(private readonly examplesService: ExamplesService) {}
@@ -25,7 +25,7 @@ export class ExamplesController {
   }
   @Get('test-generic')
   testGeneric() {
-    const data = testGeneric<string>('data');
-    return baseResponse(data);
+    // const data = testGeneric<string>('data');
+    // return baseResponse(data);
   }
 }

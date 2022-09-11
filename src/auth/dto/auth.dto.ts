@@ -1,6 +1,6 @@
-// import { IsIdentical } from '../../core/decorator/is-identical.decorator';
 import { IsIdentical } from '@/core/decorator/is-identical.decorator';
 import { Trim } from 'class-sanitizer';
+// import { IsIdentical } from '../../core/decorator/is-identical.decorator';
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,8 +8,6 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-// import { IsSame } from '../../../src/utils/decorators/is-same.decorator';
-// import { IsSame } from '@src/utils/decorators/is-confirmed.decorator';
 
 export class AuthDto {
   @IsString()
