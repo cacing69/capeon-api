@@ -6,7 +6,7 @@
   "installCommand": "yarn install",
   "outputDirectory": "dist",
   "trailingSlash": false,
-  "name": "capeon-api-dev",
+  "name": "capeon-api",
   "builds": [
     {
       "src": "src/main.ts",
