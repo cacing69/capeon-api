@@ -5,7 +5,6 @@
   "devCommand": "yarn dev",
   "installCommand": "yarn install",
   "outputDirectory": "dist",
-  "trailingSlash": false,
   "name": "capeon-api",
   "builds": [
     {
