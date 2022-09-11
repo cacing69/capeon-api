@@ -1,4 +1,4 @@
-import { IsIdentical } from '@/core/decorator/is-identical.decorator';
+import { IsIdentical } from '../../core/decorator/is-identical.decorator';
 import { Trim } from 'class-sanitizer';
 // import { IsIdentical } from '../../core/decorator/is-identical.decorator';
 import {
