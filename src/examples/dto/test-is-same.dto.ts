@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { User } from '@src/users/entities/user.entity';
+import { User } from '../../../src/users/entities/user.entity';
 import { IsUnique } from '../../../src/core/decorator/is-unique.decorator';
 import { IsIdentical } from '../../../src/core/decorator/is-identical.decorator';
 
