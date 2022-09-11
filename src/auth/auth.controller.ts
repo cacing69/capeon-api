@@ -20,7 +20,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Public } from '@src/utils/decorators/public.decorator';
-// import { Auth } from '@src/utils/decorators/auth.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
