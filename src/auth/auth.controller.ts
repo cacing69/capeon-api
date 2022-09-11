@@ -20,7 +20,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Public } from '@src/utils/decorators/public.decorator';
-import { Auth } from '@src/utils/decorators/auth.decorator';
+// import { Auth } from '@src/utils/decorators/auth.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -88,18 +88,20 @@ export class AuthController {
   }
 
   @Get('profile')
-  async profile(@Auth() auth) {
-    return setResponse(ResponseType.Read, auth);
+  // async profile(@Auth() auth) {
+  async profile() {
+    // return setResponse(ResponseType.Read, auth);
+    return setResponse(ResponseType.Read, null);
   }
 
   @Post('change-password')
   async changePassword(
-    @Auth() user,
+    // @Auth() user,
     @Body() changePasswordAuthDto: ChangePasswordAuthDto,
   ) {
-    await this.authService.changePassword(user, changePasswordAuthDto);
-    return setResponse(ResponseType.Update, null, {
-      message: 'success update password',
-    });
+    // await this.authService.changePassword(user, changePasswordAuthDto);
+    // return setResponse(ResponseType.Update, null, {
+    //   message: 'success update password',
+    // });
   }
 }
