@@ -9,7 +9,7 @@ import {
   IsString,
 } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
-import { IsExist } from '@/src/core/decorator/is-exist.decorator';
+import { IsExist } from '../../../src/core/decorator/is-exist.decorator';
 
 export class TestIsExistDto {
   @ApiProperty()
