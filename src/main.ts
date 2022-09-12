@@ -8,6 +8,13 @@ import { CustomValidationPipe } from './utils/pipes/custom-validation.pipe';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
 
+import moduleAlias from 'module-alias';
+import path = require('path');
+
+moduleAlias.addAliases({
+  '@/': path.resolve(__dirname),
+});
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
