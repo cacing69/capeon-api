@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsExist } from '../../../src/core/decorator/is-exist.decorator';
 import { IsIdentical } from '../../../src/core/decorator/is-identical.decorator';
 import { IsUnique } from '../../../src/core/decorator/is-unique.decorator';
 import {
@@ -10,6 +9,7 @@ import {
   IsString,
 } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
+import { IsExist } from '@/src/core/decorator/is-exist.decorator';
 
 export class TestIsExistDto {
   @ApiProperty()
