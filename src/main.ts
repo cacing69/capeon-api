@@ -3,20 +3,10 @@ import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
-import { ErrorFilter } from '@/src/core/filters/error.filter';
+import { ErrorFilter } from './core/filters/error.filter';
 import { CustomValidationPipe } from './core/pipes/custom-validation.pipe';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
-
-import moduleAlias from 'module-alias';
-import path = require('path');
-import { dirname } from 'path';
-
-moduleAlias.addAliases({
-  '@/': path.resolve(dirname('')),
-});
-
-console.log(dirname(''), __dirname);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
