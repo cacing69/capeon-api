@@ -1,4 +1,4 @@
-import { baseResponse } from './../utils/helpers/response-helper';
+import { baseResponse } from '../core/helpers/response-helper';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ExamplesService } from './examples.service';
 import { TestIsSameDto } from './dto/test-is-same.dto';

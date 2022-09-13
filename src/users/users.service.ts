@@ -1,11 +1,11 @@
 // import { User } from './../../src/users/entities/user.entity';
-import { cursorBuilder } from './../utils/helpers/query-helper';
-import { CursorDto } from './../utils/dto/cursor.dto';
-import { BadRequestException } from './../utils/exceptions/bad-request.exception';
+import { cursorBuilder } from '../core/helpers/query-helper';
+import { CursorDto } from '../core/dtos/cursor.dto';
+import { BadRequestException } from './../core/exceptions/bad-request.exception';
 import {
   RecordNotFoundException,
   RecordNotFoundToUpdateException,
-} from '../utils/exceptions/not-found.exception';
+} from '../core/exceptions/not-found.exception';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

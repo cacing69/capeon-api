@@ -1,5 +1,5 @@
-import { IsUniqueConstraint } from './core/decorator/is-unique.decorator';
-import { IsExistConstraint } from './core/decorator/is-exist.decorator';
+import { IsUniqueConstraint } from './core/decorators/is-unique.decorator';
+import { IsExistConstraint } from './core/decorators/is-exist.decorator';
 import { DatabaseModule } from './core/database.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -10,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ExamplesModule } from './examples/examples.module';
 import { CoreModule } from './core/core.module';
-import JwtAuthenticationGuard from './utils/guards/jwt-authentication.guard';
+import JwtAuthenticationGuard from './core/guards/jwt-authentication.guard';
 import Joi = require('@hapi/joi');
 
 @Module({

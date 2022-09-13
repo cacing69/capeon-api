@@ -1,5 +1,5 @@
-import { BaseResponse } from '../base-response';
-import { codeMapping } from '../code-mapping';
+import { BaseResponse } from '../../utils/base-response';
+import { codeMapping } from '../../utils/code-mapping';
 
 export enum ResponseType {
   Basic = 'basic',

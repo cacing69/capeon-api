@@ -1,4 +1,4 @@
-import { codeMapping } from '../code-mapping';
+import { codeMapping } from '../../utils/code-mapping';
 import {
   ArgumentMetadata,
   HttpException,

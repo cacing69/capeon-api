@@ -1,4 +1,4 @@
-import { codeMapping } from '../code-mapping';
+import { codeMapping } from '../../utils/code-mapping';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class UnAuthorizedException extends HttpException {

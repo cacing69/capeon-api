@@ -7,8 +7,8 @@ import {
   MinLength,
 } from 'class-validator';
 import { User } from '../../../src/users/entities/user.entity';
-import { IsUnique } from '../../../src/core/decorator/is-unique.decorator';
-import { IsIdentical } from '../../../src/core/decorator/is-identical.decorator';
+import { IsUnique } from '../../core/decorators/is-unique.decorator';
+import { IsIdentical } from '../../core/decorators/is-identical.decorator';
 
 export class TestIsSameDto {
   @ApiProperty()

@@ -1,7 +1,7 @@
-import { codeMapping } from '../code-mapping';
+import { codeMapping } from '../../utils/code-mapping';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
-import { ERROR } from '../error-code';
+import { ERROR } from '../../utils/error-code';
 
 export class BadRequestException extends HttpException {
   constructor(error?: any, extra?: string) {

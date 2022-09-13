@@ -2,7 +2,7 @@ import {
   setResponse,
   ResponseType,
   baseResponse,
-} from './../utils/helpers/response-helper';
+} from '../core/helpers/response-helper';
 import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
 import {
   Controller,
@@ -19,7 +19,7 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { Public } from '../../src/core/decorator/public.decorator';
+import { Public } from '../core/decorators/public.decorator';
 
 @ApiTags('auth')
 @Controller('auth')

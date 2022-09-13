@@ -1,5 +1,5 @@
-import { setResponse, ResponseType } from './../utils/helpers/response-helper';
-import { CursorDto } from './../utils/dto/cursor.dto';
+import { setResponse, ResponseType } from '../core/helpers/response-helper';
+import { CursorDto } from '../core/dtos/cursor.dto';
 import { BaseResponse } from './../utils/base-response';
 
 import {
@@ -18,7 +18,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { Auth } from '../../src/core/decorator/auth.decorator';
+import { Auth } from '../core/decorators/auth.decorator';
 
 @ApiTags('users')
 @Controller('users')

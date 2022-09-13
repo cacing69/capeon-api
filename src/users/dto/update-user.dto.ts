@@ -1,5 +1,6 @@
 import { UserDto } from './user.dto';
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { PickType } from '@nestjs/mapped-types';
 import { IsDefined, IsEmail, IsOptional } from 'class-validator';
 
 export class UpdateUserDto extends PickType(UserDto, [

@@ -1,6 +1,6 @@
 import { ChangePasswordAuthDto } from './dto/change-password-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { BadRequestException } from '../utils/exceptions/bad-request.exception';
+import { BadRequestException } from '../core/exceptions/bad-request.exception';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

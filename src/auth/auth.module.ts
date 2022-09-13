@@ -1,4 +1,4 @@
-import { JwtStrategy } from './../utils/strategies/jwt.strategy';
+import { JwtStrategy } from './../core/strategies/jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 import { UsersModule } from './../users/users.module';
 import { Module } from '@nestjs/common';

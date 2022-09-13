@@ -1,6 +1,6 @@
 import { decodeId } from './helper';
 import { FindManyOptions, LessThan, Like } from 'typeorm';
-import { CursorDto } from './../dto/cursor.dto';
+import { CursorDto } from '../dtos/cursor.dto';
 
 type CursorOption = {
   where?: any;

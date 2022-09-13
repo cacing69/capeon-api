@@ -1,4 +1,4 @@
-import { PickType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/mapped-types';
 import { TestIsExistDto } from './test-is-exist.dto';
 
 export class TestPickTypeDto extends PickType(TestIsExistDto, [
