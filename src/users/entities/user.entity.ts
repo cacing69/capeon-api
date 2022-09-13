@@ -40,7 +40,7 @@ export class User {
   @Column({ nullable: true })
   public avatar?: string;
 
-  @Expose()
+  @Exclude()
   @Column({ nullable: true })
   public phone?: string;
 

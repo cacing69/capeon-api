@@ -1,5 +1,5 @@
 // import { User } from './../../src/users/entities/user.entity';
-import { cursorBuilder } from '../core/helpers/query-helper';
+import { cursorBuilder, paginateBuilder } from '../core/helpers/query-helper';
 import { CursorDto } from '../core/dtos/cursor.dto';
 import { BadRequestException } from './../core/exceptions/bad-request.exception';
 import {
@@ -13,13 +13,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import bcrypt = require('bcrypt');
 import { User } from './entities/user.entity';
-
+import { PaginateDto } from '../core/dtos/paginate.dto';
+// import { AuthUserProvider } from '../core/providers/auth-user.provider';
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>, // private readonly authUserProvider: AuthUserProvider,
   ) {}
+
+  // private get user(): User {
+  //   return this.authUserProvider.user;
+  // }
 
   async create(createUserDto: CreateUserDto, actor?: User) {
     if (createUserDto.password != createUserDto.passwordConfirmation)
@@ -44,26 +49,19 @@ export class UsersService {
     }
   }
 
-  // async paginate(paginateDto: PaginateDto) {
-  //   const data = await this.userRepository.find({
-  //     order: {
-  //       createdAt: 'DESC',
-  //     },
-  //     take: paginateDto.limit,
-  //     skip: (paginateDto.page - 1) * paginateDto.limit,
-  //     where: {
-  //       // id: LessThan('58d2222e-0bba-48f9-a92c-5de9597ad464'),
-  //     },
-  //   });
-  //   return data;
-  // }
-
-  async cursor(cursorDto: CursorDto) {
-    const params = cursorBuilder(cursorDto);
+  async paginate(paginateDto: PaginateDto) {
+    // create paginate builder
+    const params = paginateBuilder(paginateDto);
     const data = await this.userRepository.find(params);
-
     return data;
   }
+
+  // async cursor(cursorDto: CursorDto) {
+  //   const params = cursorBuilder(cursorDto);
+  //   const data = await this.userRepository.find(params);
+
+  //   return data;
+  // }
 
   async getById(id: string) {
     const data = await this.userRepository.findOne({

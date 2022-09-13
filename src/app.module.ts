@@ -43,11 +43,6 @@ import Joi = require('@hapi/joi');
       provide: APP_GUARD,
       useClass: JwtAuthenticationGuard,
     },
-    // AppService,
-    // {
-    // provide: APP_INTERCEPTOR,
-    // useClass: JwtAuthenticationGuard,
-    // },
     IsExistConstraint,
     IsUniqueConstraint,
   ],
